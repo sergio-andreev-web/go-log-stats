@@ -1,2 +1,3 @@
 {"level":"info","message":"started"}
 {"level":"error","message":"sample failure"}
+{"level": "error", "message": "Sample event 2", "time": "2023-01-26"}
