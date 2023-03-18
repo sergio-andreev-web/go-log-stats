@@ -2,3 +2,4 @@
 {"level":"error","message":"sample failure"}
 {"level": "error", "message": "Sample event 2", "time": "2023-01-26"}
 {"level": "info", "message": "Sample event 3", "time": "2023-02-20"}
+{"level": "warn", "message": "Sample event 4", "time": "2023-03-18"}
