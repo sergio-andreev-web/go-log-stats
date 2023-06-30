@@ -6,3 +6,4 @@
 {"level": "error", "message": "Sample event 5", "time": "2023-04-25"}
 {"level": "info", "message": "Sample event 6", "time": "2023-05-23"}
 {"level": "warn", "message": "Sample event 7", "time": "2023-06-11"}
+{"level": "error", "message": "Sample event 8", "time": "2023-06-30"}
