@@ -10,3 +10,4 @@
 {"level": "info", "message": "Sample event 9", "time": "2023-07-28"}
 {"level": "warn", "message": "Sample event 10", "time": "2023-08-16"}
 {"level": "error", "message": "Sample event 11", "time": "2023-08-29"}
+{"level": "info", "message": "Sample event 12", "time": "2023-09-20"}
