@@ -21,3 +21,4 @@
 {"level": "error", "message": "Sample event 20", "time": "2024-05-18"}
 {"level": "info", "message": "Sample event 21", "time": "2024-06-13"}
 {"level": "warn", "message": "Sample event 22", "time": "2024-07-14"}
+{"level": "error", "message": "Sample event 23", "time": "2024-08-06"}
