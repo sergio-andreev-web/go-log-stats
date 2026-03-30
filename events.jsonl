@@ -48,3 +48,4 @@
 {"level": "error", "message": "Sample event 47", "time": "2025-12-26"}
 {"level": "info", "message": "Sample event 48", "time": "2026-01-22"}
 {"level": "warn", "message": "Sample event 49", "time": "2026-02-24"}
+{"level": "error", "message": "Sample event 50", "time": "2026-03-30"}
