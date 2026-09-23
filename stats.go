@@ -8,20 +8,18 @@ import (
 	"sort"
 	"strings"
 	"time"
+
+	"github.com/sergio-andreev-web/go-log-stats/internal/report"
 )
 
-type Event struct {
-	Time    string `json:"time"`
-	Level   string `json:"level"`
-	Message string `json:"message"`
-	Service string `json:"service,omitempty"`
-}
+type Event = report.Event
 
 type Filters struct {
 	Level   string
 	Service string
 	Since   time.Time
 	Until   time.Time
+	Group   string
 }
 
 type Count struct {
@@ -30,10 +28,11 @@ type Count struct {
 }
 
 type Summary struct {
-	Total       int            `json:"total"`
-	ByLevel     map[string]int `json:"by_level"`
-	ByService   map[string]int `json:"by_service"`
-	TopMessages []Count        `json:"top_messages"`
+	Total       int             `json:"total"`
+	ByLevel     map[string]int  `json:"by_level"`
+	ByService   map[string]int  `json:"by_service"`
+	TopMessages []Count         `json:"top_messages"`
+	Grouped     []report.Bucket `json:"grouped,omitempty"`
 }
 
 func parseTime(value string) (time.Time, error) {
@@ -103,6 +102,14 @@ func Analyze(reader io.Reader, filters Filters, top int) (Summary, error) {
 	if top < 1 || top > 100 {
 		return summary, fmt.Errorf("top must be between 1 and 100")
 	}
+	var analyzer report.Analyzer
+	if filters.Group != "" {
+		var err error
+		analyzer, err = report.NewByName(filters.Group)
+		if err != nil {
+			return summary, err
+		}
+	}
 	scanner := bufio.NewScanner(reader)
 	scanner.Buffer(make([]byte, 4096), 1024*1024)
 	messages := map[string]int{}
@@ -126,10 +133,16 @@ func Analyze(reader io.Reader, filters Filters, top int) (Summary, error) {
 			summary.ByService[event.Service]++
 		}
 		messages[event.Message]++
+		if analyzer != nil {
+			analyzer.Add(event)
+		}
 	}
 	if err := scanner.Err(); err != nil {
 		return summary, err
 	}
 	summary.TopMessages = topCounts(messages, top)
+	if analyzer != nil {
+		summary.Grouped = analyzer.Rows(top)
+	}
 	return summary, nil
 }

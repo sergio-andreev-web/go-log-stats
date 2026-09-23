@@ -15,6 +15,7 @@ func main() {
 	untilText := flag.String("until", "", "latest date (YYYY-MM-DD or RFC3339)")
 	top := flag.Int("top", 5, "number of top messages")
 	jsonOutput := flag.Bool("json", false, "print JSON")
+	group := flag.String("group-by", "", "group by event field")
 	flag.Parse()
 	if flag.NArg() != 1 {
 		fmt.Fprintln(os.Stderr, "usage: go run . [options] <events.jsonl>")
@@ -36,7 +37,7 @@ func main() {
 		fail(err)
 	}
 	defer file.Close()
-	summary, err := Analyze(file, Filters{strings.ToLower(*level), *service, since, until}, *top)
+	summary, err := Analyze(file, Filters{Level: strings.ToLower(*level), Service: *service, Since: since, Until: until, Group: *group}, *top)
 	if err != nil {
 		fail(err)
 	}
@@ -56,10 +57,15 @@ func main() {
 	for _, item := range summary.TopMessages {
 		fmt.Printf("%4d %s\n", item.Count, item.Value)
 	}
+	if *group != "" {
+		fmt.Printf("Grouped by %s:\n", *group)
+		for _, item := range summary.Grouped {
+			fmt.Printf("%4d %s\n", item.Count, item.Key)
+		}
+	}
 }
 
 func fail(err error) {
 	fmt.Fprintln(os.Stderr, err)
 	os.Exit(1)
 }
-
