@@ -1,5 +1,3 @@
 # Go Log Stats
 
-Counts log levels from JSONL events. Run `go run . events.jsonl`.
-
-Backdated sample commits in this repository are synthetic.
+JSONL log statistics with level, service, and date filters. Run `go test ./...` and `go run . -json events.jsonl`.
